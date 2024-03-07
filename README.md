@@ -50,10 +50,6 @@ At LuxeLane, we believe in making shopping a delightful journey. Explore the lat
 - **Shopping Cart Page:** Display of added products with quantity and prices, options for updating quantities and removing items, estimated total, and checkout buttons.
 - **Checkout Page:** Address entry for shipping details, multiple payment options, order summary, and total cost, order confirmation button.
 
-## Responsive Design
-
-Ensures that the shop site adapts and displays optimally across various devices and screen sizes.
-
 ## Discounts & Coupons
 
 - **Discounts:** Reductions in the price of products or services offered by the e-commerce website.
