@@ -1,4 +1,4 @@
-# LuxeLane - Your Ultimate Online Marketplace
+# LuxeLane - Your Ultimate Online 
 
 Welcome to LuxeLane, where innovation meets shopping! LuxeLane is not just an e-commerce website; it's a seamless experience crafted to cater to your unique needs and desires. Dive into a world of fashion, technology, and curated artisanal products.
 
