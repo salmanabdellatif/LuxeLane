@@ -20,7 +20,7 @@ Welcome to LuxeLane, where innovation meets shopping! LuxeLane is not just an e-
 ## Project Documentation
 
 1. [Project Plan](./project-plan.md)
-2. [Requirements](./project-requirements.pdf)
+2. [Requirements](./project-requirements.md)
 3. [Situation Diagram]()
 4. [Situation Scenario]()
 5. [Database Diagram]()
