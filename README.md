@@ -22,7 +22,7 @@ Welcome to LuxeLane, where innovation meets shopping! LuxeLane is not just an e-
 1. [Project Plan](./project-plan.md)
 2. [Requirements](./project-requirement.md)
 3. [Situation Diagram]()
-4. [Situation Scenario]()
+4. [Use Case Scenario](./usecase-scenarioes.md)
 5. [Database Diagram]()
 6. [Front-End]()
 7. [Back-End]()
