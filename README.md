@@ -20,9 +20,9 @@ Welcome to LuxeLane, where innovation meets shopping! LuxeLane is not just an e-
 ## Project Documentation
 
 1. [Project Plan](./project-plan.md)
-2. [Requirements](./project-requirement.md)
-3. [Use Case Diagram](./usecase-diagram.png)
-4. [Use Case Scenario](./usecase-scenarioes.md)
+2. [Requirements](./requirements/project-requirement.md)
+3. [Use Case Diagram](./usecase/usecase-diagram.png)
+4. [Use Case Scenario](./usecase/usecase-scenarioes.md)
 5. [Database Diagram](./database-diagram.jpeg)
 6. [Front-End]()
 7. [Back-End]()
