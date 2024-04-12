@@ -23,7 +23,7 @@ Welcome to LuxeLane, where innovation meets shopping! LuxeLane is not just an e-
 2. [Requirements](./project-requirement.md)
 3. [Use Case Diagram](./usecase-diagram.png)
 4. [Use Case Scenario](./usecase-scenarioes.md)
-5. [Database Diagram]()
+5. [Database Diagram](./database-diagram.jpeg)
 6. [Front-End]()
 7. [Back-End]()
 8. [Testing]()
