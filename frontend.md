@@ -1,6 +1,6 @@
 we are using React-JS
 
-Design Link [Design Link on Figma](./https://www.figma.com/community/file/1219312065205187851/full-e-commerce-website-ui-ux-design/)
+Design Link [Design Link on Figma](https://www.figma.com/community/file/1219312065205187851/full-e-commerce-website-ui-ux-design/)
 
 # Mohamed Rafi's Designs
 
