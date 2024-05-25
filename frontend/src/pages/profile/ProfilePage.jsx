@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import MainLayout from '../../components/MainLayout'
 import BreadCrumbs from '../../components/BreadCrumbs'
+import Addresses from './components/manage-account/Addresses'
 import Orders from './components/manage-orders/Orders'
 import {
   MdOutlineKeyboardArrowRight,
@@ -23,7 +24,7 @@ const ProfilePage = () => {
     { name: 'Home', link: '/' },
     { name: 'My Account', link: '/profile' },
   ]
-  const [section, setSection] = useState('profile')
+  const [section, setSection] = useState('addresses')
   return (
     <MainLayout>
       <div className='container mx-auto px-5'>
@@ -52,6 +53,20 @@ const ProfilePage = () => {
             )}
             <div className='py-2'>
               <h2 className='font-semibold text-[#e5e7eb] md:text-black'>
+                Manage My Account
+              </h2>
+              <ul className='pl-5' onClick={handleLeftNav}>
+                <li
+                  onClick={() => setSection('addresses')}
+                  className={`${
+                    section === 'addresses' ? 'text-mainRed' : 'text-[#8b8b8b]'
+                  } text-sm px-2 pt-2 cursor-pointer`}>
+                  My Addresses
+                </li>
+              </ul>
+            </div>
+            <div className='py-2'>
+              <h2 className='font-semibold text-[#e5e7eb] md:text-black'>
                 My Orders
               </h2>
               <ul className='pl-5' onClick={handleLeftNav}>
@@ -73,7 +88,9 @@ const ProfilePage = () => {
             </div>
           </div>
           <div className='md:w-3/4 w-full mx-auto'>
-            { section === 'orders' ? (
+            { section === 'addresses' ? (
+              <Addresses />
+            ) : section === 'orders' ? (
               <Orders setSection={setSection} />
             ) : (
               <Reviews />
