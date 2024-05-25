@@ -19,6 +19,11 @@ import Perfume from '../assets/NewArrival/Perfume.png'
 import Playstation from '../assets/NewArrival/Playstation.png'
 import Speakers from '../assets/NewArrival/Speakers.png'
 import WomensCollections from '../assets/NewArrival/WomensCollections.png'
+import productDetailMain from '../assets/products/Product_001/main.png'
+import productDetail1 from '../assets/products/Product_001/1.png'
+import productDetail2 from '../assets/products/Product_001/2.png'
+import productDetail3 from '../assets/products/Product_001/3.png'
+import productDetail4 from '../assets/products/Product_001/4.png'
 
 const images = {
   MainSlider,
@@ -42,6 +47,11 @@ const images = {
   Playstation,
   Speakers,
   WomensCollections,
+  productDetailMain,
+  productDetail1,
+  productDetail2,
+  productDetail3,
+  productDetail4,
 }
 
 export default images
