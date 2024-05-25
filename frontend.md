@@ -36,4 +36,4 @@ Design Link [Design Link on Figma](https://www.figma.com/community/file/12193120
 3. Checkout Page
 4. Discounts
 5. Coupons
-6. 404 Error page
+6. static pages: 404 not found, about and contact
