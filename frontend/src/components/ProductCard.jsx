@@ -5,8 +5,12 @@ import { IoMdAdd } from 'react-icons/io'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 
 const ProductCard = ({ product }) => {
-  const addToFavoriteHandler = () => {}
-  const addToCartHandler = () => {}
+  const addToFavoriteHandler = () => {
+    // this function will be added soon after finish backend
+  }
+  const addToCartHandler = () => {
+    // this function will be added soon after finish backend
+  }
   const removeFromFavoriteHandler = () => {}
   const rateArray = Array.from({ length: 5 }, (_, index) => {
     const starRating = (index + 1) * 0.2

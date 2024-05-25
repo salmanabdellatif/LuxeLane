@@ -16,6 +16,7 @@ const CartProductItem = ({ item, setCartItems, cartItems }) => {
   const deleteHandler = () => {
     // delete functionality
     setCartItems(items => items.filter(i => (i === item ? null : i.qty)))
+    // delete function from db will be added soon
   }
   return (
     <tr className='font-semibold shadow-[0_3px_10px_rgb(0,0,0,0.05)] rounded-sm text-xs'>
