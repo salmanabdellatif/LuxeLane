@@ -1,4 +1,5 @@
 import MainSlider from '../assets/MainSlider.png'
+import SignUp from '../assets/SignUp.png'
 import Product1 from '../assets/products/Product1.png'
 import Product2 from '../assets/products/Product2.png'
 import Product3 from '../assets/products/Product3.png'
@@ -19,6 +20,8 @@ import Perfume from '../assets/NewArrival/Perfume.png'
 import Playstation from '../assets/NewArrival/Playstation.png'
 import Speakers from '../assets/NewArrival/Speakers.png'
 import WomensCollections from '../assets/NewArrival/WomensCollections.png'
+import AboutImage from '../assets/AboutImage.png'
+
 import productDetailMain from '../assets/products/Product_001/main.png'
 import productDetail1 from '../assets/products/Product_001/1.png'
 import productDetail2 from '../assets/products/Product_001/2.png'
@@ -27,6 +30,8 @@ import productDetail4 from '../assets/products/Product_001/4.png'
 
 const images = {
   MainSlider,
+  SignUp,
+  AboutImage,
   Product1,
   Product2,
   Product3,
