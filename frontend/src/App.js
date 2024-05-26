@@ -2,6 +2,8 @@ import { Routes, Route } from 'react-router-dom'
 import './App.css'
 
 import HomePage from './pages/home/HomePage'
+import RegisterPage from './pages/register/RegisterPage'
+import LoginPage from './pages/login/LoginPage'
 import CartPage from './pages/cart/CartPage'
 import ProfilePage from './pages/profile/ProfilePage'
 import DashboardPage from './pages/dashboard/DashboardPage'
@@ -16,6 +18,8 @@ function App() {
     <div className='App font-poppins'>
       <Routes>
         <Route index path='/' element={<HomePage />} />
+        <Route path='/register' element={<RegisterPage />} />
+        <Route path='/login' element={<LoginPage />} />
         <Route path='/cart' element={<CartPage />} />
         <Route path='/checkout' element={<CheckoutPage />} />
         <Route path='/profile' element={<ProfilePage />} />
