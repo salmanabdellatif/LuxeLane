@@ -8,7 +8,7 @@ Welcome to LuxeLane, where innovation meets shopping! LuxeLane is not just an e-
 
 ## `https://sdu-luxelane.vercel.app`
 
-**Project Address, Click Here: ** [LuxeLane](https://sdu-luxelane.vercel.app/)
+**Project Address, Click Here:** [LuxeLane](https://sdu-luxelane.vercel.app/)
 
 **Team:** 3R-ASR
 
