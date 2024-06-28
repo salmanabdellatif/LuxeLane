@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node ./app.js",
-    "dev": "nodemon ./app.js"
+    "dev": "nodemon ./app.js",
+    "test": "jest --verbose"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,8 @@
     "express": "^4.19.2",
     "http-status-codes": "^2.3.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.4.0"
+    "mongoose": "^8.4.0",
+    "supertest": "^7.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.3"
