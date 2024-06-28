@@ -1,43 +1,63 @@
 import Product from '../models/product.js'
+import { uploadPicture } from '../utils/uploadPicture.js'
 
-const createProduct = async (req, res, next) => {
-  try {
-    const productData = req.body
-    const newProduct = await Product.create(productData)
-    res.status(201).json(newProduct)
-  } catch (error) {
-    next(error)
-  }
+const createProduct = (req, res, next) => {
+  const upload = uploadPicture.array('productImgs')
+
+  upload(req, res, async function (err) {
+    try {
+      if (err) {
+        return res
+          .status(500)
+          .json('An unknown error occurred when uploading: ' + err.message)
+      }
+
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json('Please provide images')
+      }
+
+      const productData = req.body
+      productData.images = req.files.map(file => file.filename)
+
+      const newProduct = await Product.create(productData)
+      res.status(201).json(newProduct)
+    } catch (error) {
+      next(error)
+    }
+  })
 }
 const getAllProducts = async (req, res, next) => {
   try {
-    const { keyword } = req.query
+    const { keyword, minPrice, maxPrice } = req.query
 
-    const filter = {
-      $or: [
-        { name: { $regex: new RegExp(keyword, 'i') } },
-        { category: { $regex: new RegExp(keyword, 'i') } },
-      ],
+    let where = {}
+
+    if (keyword) {
+      where.name = { $regex: keyword, $options: 'i' }
     }
 
+    // Add price range filtering
     if (minPrice && maxPrice) {
-      filter.mainPrice = {
+      where.mainPrice = {
         $gte: parseFloat(minPrice),
         $lte: parseFloat(maxPrice),
       }
     } else if (minPrice) {
-      filter.mainPrice = { $gte: parseFloat(minPrice) }
+      where.mainPrice = { $gte: parseFloat(minPrice) }
     } else if (maxPrice) {
-      filter.mainPrice = { $lte: parseFloat(maxPrice) }
+      where.mainPrice = { $lte: parseFloat(maxPrice) }
     }
 
-    const products = await Product.find(filter)
+    // Find products with the constructed filters
+    const products = await Product.find(where)
 
     res.status(200).json(products)
   } catch (error) {
+    console.error('Error fetching products:', error)
     next(error)
   }
 }
+
 const getProductById = async (req, res, next) => {
   try {
     const productId = req.params.id
