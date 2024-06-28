@@ -18,13 +18,16 @@ const NavItemsInfo = [
   { name: 'Favorite', link: '/favorite', style: 'md:hidden' },
   { name: 'Cart', link: '/cart', style: 'md:hidden' },
 ]
-let loggedinUser = 'a'
-const Header = () => {
+const Header = ({ user, setUser }) => {
   const [navIsVisible, setNavIsVisible] = useState(false)
   const navVisiblityHandler = () => {
     setNavIsVisible(curState => !curState)
   }
-  const logoutHandler = () => {}
+  const logoutHandler = () => {
+    localStorage.removeItem('token')
+    setUser(null)
+    window.location.href = '/'
+  }
   const location = useLocation().pathname.substring(1)
   return (
     <section className='sticky top-0 left-0 right-0 z-50 bg-white'>
@@ -47,10 +50,10 @@ const Header = () => {
           } transition-all duration-300 mt-[73px] lg:mt-0 bg-black bg-opacity-95 lg:bg-transparent z-[49] fixed top-0 bottom-0 w-full lg:w-auto lg:static flex lg:justify-end flex-col lg:flex-row gap-x-9 justify-center items-center`}>
           <ul className='flex gap-2 flex-col items-center gap-y-5 lg:flex-row text-white lg:text-black'>
             {NavItemsInfo.map(item => {
-              if (item.name === 'Favorite' && !loggedinUser) {
+              if (item.name === 'Favorite' && !user) {
                 return null
               }
-              if (item.name === 'Sign Up' && loggedinUser) {
+              if (item.name === 'Sign Up' && user) {
                 return null
               }
               return (
@@ -85,7 +88,7 @@ const Header = () => {
               <FiShoppingCart className='w-6 h-6 text-black' />
             </Link>
           </div>
-          {loggedinUser && (
+          {user && (
             <div className='mx-2 hidden md:block relative group'>
               <Link to='/profile'>
                 <FiUser
