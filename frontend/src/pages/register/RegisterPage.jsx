@@ -1,10 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 import MainLayout from '../../components/MainLayout'
 import images from '../../constants/images'
+import axios from 'axios'
 
 const RegisterPage = () => {
-  const registerHandler = e => {
+  const [errors, setErrors] = useState(null)
+  const [registerData, setRegisterData] = useState({ email: '', password: '' })
+  const registerHandler = async e => {
     e.preventDefault()
+    try {
+      const response = await axios.post(
+        'https://luxelane-api.vercel.app/api/users/register',
+        registerData
+      )
+
+      // Extract the user token from the response
+      const { token } = response.data
+
+      // Save the user token to local storage
+      localStorage.setItem('token', token)
+      if (response.data.admin) {
+        window.location.href = '/admin/dashboard'
+      } else {
+        window.location.href = '/'
+      }
+    } catch (error) {
+      // Handle login errors
+      setErrors(error.response.data.msg)
+      console.log(error.response.data)
+    }
+  }
+  const formOnChangeHandler = e => {
+    const { name, value } = e.target
+    setRegisterData(prev => ({
+      ...prev,
+      [name]: value,
+    }))
   }
   return (
     <MainLayout>
@@ -27,6 +58,8 @@ const RegisterPage = () => {
                   Name
                 </label>
                 <input
+                  onChange={formOnChangeHandler}
+                  name='name'
                   id='name'
                   type='text'
                   placeholder='Enter your name'
@@ -38,7 +71,9 @@ const RegisterPage = () => {
                   Email
                 </label>
                 <input
+                  onChange={formOnChangeHandler}
                   id='email'
+                  name='email'
                   type='text'
                   placeholder='Enter your email'
                   className='appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 outline-none'
@@ -49,12 +84,15 @@ const RegisterPage = () => {
                   Password
                 </label>
                 <input
+                  onChange={formOnChangeHandler}
                   id='password'
+                  name='password'
                   type='password'
                   placeholder='Enter your password'
                   className='appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 outline-none'
                 />
               </div>
+              {errors && <p className='text-xs text-mainRed '>*{errors}</p>}
               <button
                 onClick={e => registerHandler(e)}
                 type='submit'
@@ -67,10 +105,10 @@ const RegisterPage = () => {
                 Sign up with Google
               </a>
               <div className='flex items-center justify-center'>
-                <span className='text-sm text-gray-500 mr-2'>
+                <span className='text-xs text-gray-500 mr-2'>
                   Already have account?
                 </span>
-                <a href='/login' className='text-sm text-mainRed font-medium'>
+                <a href='/login' className='text-xs text-mainRed font-medium'>
                   Login
                 </a>
               </div>

@@ -1,10 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 import MainLayout from '../../components/MainLayout'
 import images from '../../constants/images'
+import axios from 'axios'
 
-const RegisterPage = () => {
-  const loginHandler = e => {
+const Login = () => {
+  const [errors, setErrors] = useState(null)
+  const [loginData, setLoginData] = useState({ email: '', password: '' })
+
+  const loginHandler = async e => {
     e.preventDefault()
+    try {
+      const response = await axios.post(
+        'https://luxelane-api.vercel.app/api/users/login',
+        loginData
+      )
+
+      // Extract the user token from the response
+      const { token } = response.data
+
+      // Save the user token to local storage
+      localStorage.setItem('token', token)
+      if (response.data.admin) {
+        window.location.href = '/admin/dashboard'
+      } else {
+        window.location.href = '/'
+      }
+    } catch (error) {
+      // Handle login errors
+      setErrors(error.response.data)
+    }
+  }
+  const formOnChangeHandler = e => {
+    const { name, value } = e.target
+    setLoginData(prev => ({
+      ...prev,
+      [name]: value,
+    }))
   }
   return (
     <MainLayout>
@@ -25,7 +56,10 @@ const RegisterPage = () => {
                   Email
                 </label>
                 <input
+                  onChange={formOnChangeHandler}
                   id='email'
+                  name='email'
+                  value={loginData.email}
                   type='text'
                   placeholder='Enter your email'
                   className='appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 outline-none'
@@ -36,12 +70,16 @@ const RegisterPage = () => {
                   Password
                 </label>
                 <input
+                  onChange={formOnChangeHandler}
                   id='password'
+                  value={loginData.password}
+                  name='password'
                   type='password'
                   placeholder='Enter your password'
                   className='appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 outline-none'
                 />
               </div>
+              {errors && <p className='text-mainRed text-xs'>*{errors}</p>}
               <button
                 onClick={e => loginHandler(e)}
                 type='submit'
@@ -54,10 +92,12 @@ const RegisterPage = () => {
                 Login with Google
               </a>
               <div className='flex items-center justify-center'>
-                <span className='text-sm text-gray-500 mr-2'>
-                  You Don't have an account?
+                <span className='text-xs text-gray-500 mr-2'>
+                  Don't Have an Account?
                 </span>
-                <a href='/register' className='text-sm text-mainRed font-medium'>
+                <a
+                  href='/register'
+                  className='text-xs text-mainRed font-medium whitespace-nowrap'>
                   Sign Up
                 </a>
               </div>
@@ -69,4 +109,4 @@ const RegisterPage = () => {
   )
 }
 
-export default RegisterPage
+export default Login
