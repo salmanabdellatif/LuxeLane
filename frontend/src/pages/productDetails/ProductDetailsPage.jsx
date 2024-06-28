@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MainLayout from '../../components/MainLayout'
 import { useParams } from 'react-router-dom'
 import BreadCrumbs from '../../components/BreadCrumbs'
@@ -8,9 +8,32 @@ import { FiMinus, FiPlus } from 'react-icons/fi'
 import { HiOutlineArrowPath } from 'react-icons/hi2'
 import { TbTruckDelivery } from 'react-icons/tb'
 import ProductCard from '../../components/ProductCard'
+import axios from 'axios'
 
-const ProductDetailsPage = () => {
+const ProductDetailsPage = ({ setLoading, setUser }) => {
+  const [product, setProduct] = useState({})
   const { id: productId } = useParams()
+  console.log(productId)
+  // get the product by its id
+  useEffect(() => {
+    const token = localStorage.getItem('token') || ''
+    axios
+      .get(`https://luxelane-api.vercel.app/api/products/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        // Set the user state with the fetched user data
+        setProduct(response.data)
+        console.log(response.data)
+        setLoading(false)
+      })
+      .catch(error => {
+        console.error('Error fetching user data:', error)
+        setLoading(false)
+      })
+  }, [])
   const productData = {
     _id: productId,
     name: 'Havic HV G-92 Gamepad',
@@ -144,13 +167,17 @@ const ProductDetailsPage = () => {
               </span>
               |
               {productData.inStockQty > 3 ? (
-                <span className='text-[#00FF66]'>in stock</span>
+                <span className='text-[#00FF66] whitespace-nowrap'>
+                  in stock
+                </span>
               ) : productData.inStockQty <= 3 && productData.inStockQty > 0 ? (
-                <span className='text-[#FFAD33]'>
+                <span className='text-[#FFAD33] whitespace-nowrap'>
                   last {productData.inStockQty}
                 </span>
               ) : productData.inStockQty === 0 ? (
-                <span className='text-mainRed'>No Available</span>
+                <span className='text-mainRed whitespace-nowrap'>
+                  No Available
+                </span>
               ) : (
                 ''
               )}

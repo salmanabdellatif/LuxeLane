@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import MainLayout from '../../components/MainLayout'
 import BreadCrumbs from '../../components/BreadCrumbs'
+import Profile from './components/manage-account/Profile'
 import Addresses from './components/manage-account/Addresses'
+import PaymentCards from './components/manage-account/PaymentCards'
 import Orders from './components/manage-orders/Orders'
 import {
   MdOutlineKeyboardArrowRight,
@@ -24,7 +26,7 @@ const ProfilePage = () => {
     { name: 'Home', link: '/' },
     { name: 'My Account', link: '/profile' },
   ]
-  const [section, setSection] = useState('addresses')
+  const [section, setSection] = useState('profile')
   return (
     <MainLayout>
       <div className='container mx-auto px-5'>
@@ -38,7 +40,7 @@ const ProfilePage = () => {
         <div className='flex justify-between w-full relative gap-2'>
           <div
             className={`md:w-1/4 absolute md:static bg-black bg-opacity-95 md:bg-white transition-all duration-300 z-30 p-8 md:p-0 rounded-r-lg h-3/5 ${
-              !leftNavIsVisible ? '-left-52' : '-left-5'
+              !leftNavIsVisible ? '-left-64' : '-left-5'
             }`}>
             {!leftNavIsVisible ? (
               <MdOutlineKeyboardArrowRight
@@ -57,11 +59,25 @@ const ProfilePage = () => {
               </h2>
               <ul className='pl-5' onClick={handleLeftNav}>
                 <li
+                  onClick={() => setSection('profile')}
+                  className={`${
+                    section === 'profile' ? 'text-mainRed' : 'text-[#8b8b8b]'
+                  } text-sm px-2 pt-2 cursor-pointer`}>
+                  My Profile
+                </li>
+                <li
                   onClick={() => setSection('addresses')}
                   className={`${
                     section === 'addresses' ? 'text-mainRed' : 'text-[#8b8b8b]'
                   } text-sm px-2 pt-2 cursor-pointer`}>
                   My Addresses
+                </li>
+                <li
+                  onClick={() => setSection('payment')}
+                  className={`${
+                    section === 'payment' ? 'text-mainRed' : 'text-[#8b8b8b]'
+                  } text-sm px-2 pt-2 cursor-pointer`}>
+                  My Payment Cards
                 </li>
               </ul>
             </div>
@@ -88,8 +104,12 @@ const ProfilePage = () => {
             </div>
           </div>
           <div className='md:w-3/4 w-full mx-auto'>
-            { section === 'addresses' ? (
+            {section === 'profile' ? (
+              <Profile />
+            ) : section === 'addresses' ? (
               <Addresses />
+            ) : section === 'payment' ? (
+              <PaymentCards />
             ) : section === 'orders' ? (
               <Orders setSection={setSection} />
             ) : (

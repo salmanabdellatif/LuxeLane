@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import MainLayout from '../../components/MainLayout'
 import BreadCrumbs from '../../components/BreadCrumbs'
 import images from '../../constants/images'
 import CheckoutCard from './components/CheckoutCard'
 
 const CheckoutPage = () => {
-  const [coupon, setCoupon] = useState('')
-  const [appliedCoupon, setAppliedCoupon] = useState('')
   // temp data
   const breadCrumbsData = [
     { name: 'Home', link: '/' },
@@ -43,16 +41,9 @@ const CheckoutPage = () => {
     totalPrice += item.salePrice * item.qty
   }
   const shippingPrice = totalPrice < 300 ? 35 : 0
-  const applyCouponHandler = () => {
-    // it will check in db if it valid coupon
-    // then add it to interface
-    setAppliedCoupon(coupon)
-    setCoupon('')
-  }
-  const deleteCouponHandler = () => {
-    setAppliedCoupon('')
-    setCoupon('')
-  }
+  const appliedCoupon = ''
+  const applyCouponHandler = () => {}
+  const deleteCouponHandler = () => {}
   return (
     <MainLayout>
       <div className='container mx-auto px-4 md:px-8'>
@@ -148,9 +139,6 @@ const CheckoutPage = () => {
               <input
                 className='max-w-[170px] placeholder:text-[#a7a7a7] outline-none border border-[#a1a1a1] px-2 md:px-3 py-1 md:py-1 rounded-md'
                 type='text'
-                name='coupon'
-                value={coupon}
-                onChange={e => setCoupon(e.target.value)}
                 placeholder='Coupon Code'
               />
               {appliedCoupon ? (

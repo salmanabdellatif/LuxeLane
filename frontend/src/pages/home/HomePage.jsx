@@ -1,4 +1,3 @@
-import React from 'react'
 import MainLayout from '../../components/MainLayout'
 import MainSlider from '../../components/MainSlider'
 import LeftSidebar from '../../components/LeftSidebar'
@@ -9,9 +8,11 @@ import OurProducts from './container/OurProducts'
 import Featured from './container/Featured'
 import Services from './container/Services'
 
-const HomePage = () => {
-  return (
-    <MainLayout>
+const HomePage = ({ user, setUser, loading }) => {
+  return loading ? (
+    <h1>Loading...</h1>
+  ) : (
+    <MainLayout user={user} setUser={setUser}>
       <section className='container flex mx-auto'>
         <LeftSidebar />
         <MainSlider />

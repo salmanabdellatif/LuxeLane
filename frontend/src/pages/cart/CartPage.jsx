@@ -40,9 +40,7 @@ const CartPage = () => {
     totalPrice += item.salePrice * item.qty
   }
   const shippingPrice = totalPrice < 300 ? 35 : 0
-  const updateCartHandler = () => {
-    // frontend updating functionalities has been added, after finishing backend this function will work
-  }
+  const updateCartHandler = () => {}
   const applyCouponHandler = () => {}
   const deleteCouponHandler = () => {}
   // const checkoutHandler = () => {}

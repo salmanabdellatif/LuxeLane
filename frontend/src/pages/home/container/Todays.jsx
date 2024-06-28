@@ -9,7 +9,7 @@ const Todays = () => {
   const [minutes, setMinutes] = useState(0)
   const [seconds, setSeconds] = useState(0)
 
-  const deadline = 'may, 30, 2024'
+  const deadline = 'june, 28, 2024'
   const getTime = () => {
     const time = Date.parse(deadline) - Date.now()
 
