@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import images from '../../../constants/images'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 function validateProduct(product) {
   const errors = {}
@@ -25,47 +25,41 @@ function validateProduct(product) {
     errors.category = 'Category is required and must be a string'
   }
 
-  if (
-    product.discound !== undefined &&
-    (product.discound < 0 || product.discound > 1)
-  ) {
-    errors.discound = 'Discount must be between 0 and 1'
+  if (Number(product.inStockQty) === undefined) {
+    errors.inStockQty = 'quantity must be a number'
   }
 
   return errors
 }
 
 const Products = () => {
-  const tempProducts = [
-    {
-      _id: '001',
-      name: 'Breed Dry Dog Food',
-      desc: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Blanditiis nemo quaerat rem vero temporibus, consectetur velit quia! Temporibus aperiam odit nihil exercitationem.',
-      mainPrice: 100,
-      img: images.Product9,
-      category: 'pets',
-      discound: 0.1,
-    },
-    {
-      _id: '002',
-      name: 'Breed Dry Dog Food',
-      desc: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Blanditiis nemo quaerat rem vero temporibus, consectetur velit quia! Temporibus aperiam odit nihil exercitationem.',
-      mainPrice: 100,
-      img: images.Product9,
-      category: 'pets',
-      discound: 0.1,
-    },
-  ]
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(
+          `https://luxelane-api.vercel.app/api/products`
+        )
+        setProducts(response.data)
+      } catch (error) {
+        console.error('Error fetching products:', error)
+      }
+    }
+
+    fetchProducts()
+  }, [products])
+
   const [searchValue, setSearchValue] = useState('')
   const [searchError, setSearchError] = useState('')
-  const [searchedProducts, setSearchedProducts] = useState([])
   const [errors, setErrors] = useState({})
   const [EditFormData, setEditFormData] = useState()
-  const [previews, setPreviews] = useState([]) // images viewer
+  const [previews, setPreviews] = useState([])
+  const [imageFiles, setImageFiles] = useState([])
 
   const editHandler = _id => {
     setErrors({})
-    setEditFormData(searchedProducts.filter(user => user._id === _id)[0])
+    setEditFormData(products.filter(user => user._id === _id)[0])
   }
 
   const searchSubmitHandler = e => {
@@ -76,9 +70,20 @@ const Products = () => {
     } else {
       setSearchError('')
       // search logic
+      const fetchProducts = async () => {
+        try {
+          const response = await axios.get(
+            `https://luxelane-api.vercel.app/api/products?keyword=${searchValue}`
+          )
+          setProducts(response.data)
+        } catch (error) {
+          console.error('Error fetching products:', error)
+        }
+      }
+      fetchProducts()
+
       setSearchValue('')
-      // set data
-      setSearchedProducts(tempProducts)
+
       // clear edit form if it visible
       setEditFormData(null)
     }
@@ -86,13 +91,12 @@ const Products = () => {
   const addHandler = e => {
     e.preventDefault()
     setEditFormData({
-      _id: Math.floor(Math.random() * 10),
       name: '',
       desc: '',
       mainPrice: '',
-      img: images.Product9,
+      img: '',
       category: '',
-      discound: '',
+      inStockQty: '',
     })
   }
   const formOnChangeHandler = e => {
@@ -102,14 +106,14 @@ const Products = () => {
       [name]: value,
     }))
   }
-  const editFormSubmitHandler = e => {
+  const editFormSubmitHandler = async e => {
     e.preventDefault()
 
     const errors = validateProduct(EditFormData)
     setErrors(errors)
 
     if (Object.keys(errors).length === 0) {
-      setSearchedProducts(prev => {
+      setProducts(prev => {
         // Check if the product exists in the list
         const productIndex = prev.findIndex(
           product => product._id === EditFormData._id
@@ -121,23 +125,52 @@ const Products = () => {
           )
         } else {
           // Product does not exist, add it as a new item
-          return [...prev, EditFormData]
+          // return [...prev, EditFormData]
         }
       })
-      // set form data to null to make it invisible
+      if (!EditFormData._id) {
+        const token = localStorage.getItem('token')
+
+        const formData = new FormData()
+        formData.append('name', EditFormData.name)
+        formData.append('mainPrice', EditFormData.mainPrice)
+        formData.append('category', EditFormData.category)
+        formData.append('inStockQty', EditFormData.inStockQty)
+        formData.append('desc', EditFormData.description)
+
+        if (imageFiles) {
+          for (let i = 0; i < imageFiles.length; i++) {
+            formData.append('productImgs', imageFiles[i])
+          }
+        }
+        const response = await axios.post(
+          'https://luxelane-api.vercel.app/api/products',
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        )
+        console.log(response)
+      }
+      // set form data to null to collapse the form
       setEditFormData(null)
+      setImageFiles(null)
       // edit db here
     }
   }
   const deleteHandler = id => {
-    setSearchedProducts(prev => prev.filter(user => user._id !== id))
+    setProducts(prev => prev.filter(user => user._id !== id))
     setEditFormData()
-    //  edit db here
+    // edit db here
   }
 
   // handle upload images
   const fileUploaderOnChangeHandler = event => {
     const files = Array.from(event.target.files)
+    setImageFiles(files)
     const newPreviews = files.map(file => URL.createObjectURL(file))
     setPreviews(newPreviews)
   }
@@ -240,20 +273,20 @@ const Products = () => {
               )}
             </div>
             <div className='w-1/2 relative'>
-              <label htmlFor='discound' className='px-1'>
-                Discound
+              <label htmlFor='inStockQty' className='px-1'>
+                Quantity
               </label>
               <input
                 onChange={e => formOnChangeHandler(e)}
                 type='text'
-                name='discound'
-                id='discound'
+                name='inStockQty'
+                id='inStockQty'
                 className='w-full bg-[#dbdbdb] rounded-md px-3 py-1.5 outline-none'
-                value={EditFormData.discound}
+                value={EditFormData.inStockQty}
               />
-              {errors.discound && (
+              {errors.inStockQty && (
                 <p className='text-mainRed text-xs absolute -bottom-4 left-0 whitespace-nowrap'>
-                  {errors.discound}
+                  {errors.inStockQty}
                 </p>
               )}
             </div>
@@ -304,15 +337,20 @@ const Products = () => {
           </button>
         </form>
       )}
-      {searchedProducts[0] && (
+      {products[0] && (
         <div>
-          {searchedProducts.map(product => (
+          {products.map(product => (
             <div
               key={product._id}
               className='rounded-md p-2 w-full border border-[#bebebe] mt-3'>
+              <img
+                src={`https://luxelane-api.vercel.app/uploads/${product.images[0]}`}
+                alt={product.name}
+                className='mx-auto my-5 w-1/2'
+              />
               <div className='flex gap-x-2 items-center'>
                 <p className='w-1/2'>
-                  <span className='font-semibold'>Product Name: </span>
+                  <span className='font-semibold'>Name: </span>
                   {product.name}
                 </p>
                 <p className='w-1/2'>
@@ -326,13 +364,13 @@ const Products = () => {
                   {product.mainPrice}
                 </p>
                 <p className='w-1/2'>
-                  <span className='font-semibold'>Discound: </span>
-                  {product.discound}
+                  <span className='font-semibold'>Quantity: </span>
+                  {product.inStockQty}
                 </p>
               </div>
               <div className='flex gap-x-2 items-center'>
                 <p className='my-3'>
-                  <span className='font-semibold'>Product Description: </span>
+                  <span className='font-semibold'>Description: </span>
                   <span className='text-sm'>{product.desc}</span>
                 </p>
               </div>
