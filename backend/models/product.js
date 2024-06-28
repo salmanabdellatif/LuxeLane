@@ -12,14 +12,10 @@ const productSchema = new Schema({
     ref: 'Category',
     required: [true, 'please provide category'],
   },
-  images: [
-    {
-      name: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  images: {
+    type: [String],
+    required: true,
+  },
   desc: {
     type: String,
     required: true,
