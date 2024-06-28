@@ -28,5 +28,5 @@ Welcome to LuxeLane, where innovation meets shopping! LuxeLane is not just an e-
 5. [Database Diagram](./database-diagram.jpeg)
 6. [Front-End](./frontend/)
 7. [Back-End](./backend/)
-8. [Testing]()
-9. [Developer and User Documentation]()
+8. [Testing](./Testing/)
+9. [Developer and User Documentation](./Developer%20and%20User%20Documentation/)
